@@ -1,12 +1,14 @@
 use std::{
     collections::HashMap,
-    io::{stdin, stdout},
+    io::{stdin, stdout, BufRead, BufReader, BufWriter, Write},
 };
 
 use crossterm::{
     execute,
     style::{Color, SetForegroundColor},
 };
+
+use crate::heap::Heap;
 
 pub struct Problem {
     id: usize,
@@ -18,7 +20,7 @@ pub struct Problem {
 impl Problem {
     pub fn execute(&self) {
         let trying: &str;
-        if (self.trying) {
+        if self.trying {
             trying = "시도중...";
             execute!(stdout(), SetForegroundColor(Color::Red)).unwrap();
         } else {
@@ -48,9 +50,9 @@ impl Problem {
             id: 2751,
             func: p2751,
             info: "수 정렬하기 2".to_string(),
-            trying: true,
+            trying: false,
         };
-        // map.insert(2751, p2751);
+        map.insert(2751, p2751);
 
         // ⇑ 여기 추가
         map
@@ -62,4 +64,44 @@ fn test() {
 }
 
 // 수 정렬하기 p2751
-fn p2751() {}
+fn p2751() {
+    let mut tree: Heap = Heap::new();
+    let mut input = String::new();
+    let stdin = stdin().lock();
+    let mut sin = BufReader::new(stdin);
+    sin.read_line(&mut input).unwrap();
+
+    let size: i32 = input.trim().parse().unwrap();
+    input.clear();
+
+    for _i in 0..size {
+        sin.read_line(&mut input).unwrap();
+    }
+    let list: Vec<i32> = input
+        .split_ascii_whitespace()
+        .flat_map(str::parse::<i32>)
+        .collect();
+
+    for i in list {
+        tree.push(i);
+    }
+
+    let mut tmp = i32::MAX;
+    let mut data: Option<i32>;
+    let stdout = stdout().lock();
+    let mut out = BufWriter::new(stdout);
+    loop {
+        data = tree.pop();
+        match data {
+            Some(num) => {
+                if num != tmp {
+                    writeln!(out, "{num}").unwrap();
+                }
+                tmp = num;
+            }
+            None => {
+                break;
+            }
+        }
+    }
+}
