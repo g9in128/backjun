@@ -41,9 +41,6 @@ fn main() {
     let res: usize = input.trim().parse().unwrap_or(0);
     if res > 0 {
         num = res;
-        file.set_len(0).unwrap();
-        file.seek(SeekFrom::Start(0)).unwrap();
-        writeln!(file, "{}", num).unwrap();
     } else {
         if recent > 0 {
             println!("최근 문제 실행");
@@ -59,7 +56,12 @@ fn main() {
 
     println!("문제 보기 : https://www.acmicpc.net/problem/{num}");
     match res {
-        Some(p) => p.execute(),
+        Some(p) => {
+            p.execute();
+            file.set_len(0).unwrap();
+            file.seek(SeekFrom::Start(0)).unwrap();
+            writeln!(file, "{}", num).unwrap();
+        },
         None => println!("문제가 데이터에 없습니다!"),
     }
 }

@@ -54,6 +54,29 @@ impl Problem {
         };
         map.insert(2751, p2751);
 
+        let p2869 = Problem {
+            id: 2869,
+            func: p2869,
+            info: "달팽이는 올라가고 싶다".to_string(),
+            trying: true,
+        };
+        map.insert(p2869.id, p2869);
+
+        let p2557 = Problem {
+            id: 2557,
+            func: p2557,
+            info: "킹로우 갓드".to_string(),
+            trying : false,
+        };
+        map.insert(2557, p2557);
+
+        let p1330 = Problem {
+            id : 1330,
+            func : p1330,
+            info : "두 수 비교하기".to_string(),
+            trying : false,
+        };
+        map.insert(1330,p1330);
         // ⇑ 여기 추가
         map
     }
@@ -61,6 +84,30 @@ impl Problem {
 
 fn test() {
     println!("이것은 테스트 문제입니다");
+}
+
+fn p1330() {
+    let mut input = String::new();
+    let stdin = stdin();
+    stdin.read_line(&mut input).unwrap();
+    let arr:Vec<i32> = input.split_ascii_whitespace().flat_map(str::parse::<i32>).collect();
+
+    let (a,b) = (arr[0],arr[1]);
+
+    let output:&str;
+    if a > b {
+        output = ">";
+    }else if a < b {
+        output  = "<";
+    }else {
+        output = "==";
+    }
+    println!("{output}")
+}
+
+// Hello World p2557
+fn p2557() {
+    print!("Hello World!");
 }
 
 // 수 정렬하기 p2751
@@ -104,4 +151,16 @@ fn p2751() {
             }
         }
     }
+}
+
+fn p2869() {
+    let mut input = String::new();
+    stdin().read_line(&mut input).unwrap();
+    let arr: Vec<i32> = input
+        .split_ascii_whitespace()
+        .flat_map(str::parse::<i32>)
+        .collect();
+    let (a, b, v) = (arr[0], arr[1], arr[2]);
+    let res = v / (a - b) - b;
+    println!("{res}");
 }
